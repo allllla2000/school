@@ -1,0 +1,38 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+build/
+
+### Logs ###
+logs/
+*.log
+
+### Database ###
+application.properties
+application-dev.properties
+
+### System ###
+.DS_Store
+Thumbs.db
+
+### VSCode  ###
+.vscode/
+
+### Git ###
+*.orig
+
+#
+static/upload/
