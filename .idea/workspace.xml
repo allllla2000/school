@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9f58491-192e-41b9-93b8-cd7b4316b53e" name="Changes" comment="" />
+    <list default="true" id="c9f58491-192e-41b9-93b8-cd7b4316b53e" name="Changes" comment="Add all project files">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/SchoolApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/SchoolApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/config/DataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/config/DataInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/controller/FacultyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/controller/FacultyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/controller/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/model/Faculty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/model/Faculty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/model/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/model/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/repository/FacultyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/repository/FacultyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/repository/StudentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/repository/StudentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/service/FacultyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/service/FacultyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/service/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/hogwarts/school/service/StudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +84,7 @@
     &quot;Application.SchoolApplication.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;pr-full-code&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#4 on pr-full-code&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/alla/Downloads/school&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
@@ -123,6 +138,7 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Empty PR test" />
     <MESSAGE value="Empty PR test 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Empty PR test 2" />
+    <MESSAGE value="Add all project files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add all project files" />
   </component>
 </project>
