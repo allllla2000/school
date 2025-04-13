@@ -62,4 +62,6 @@ public class FacultyController {
             return ResponseEntity.ok(faculties);
         }
 
+        //
+
 }

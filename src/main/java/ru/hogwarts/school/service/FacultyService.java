@@ -46,4 +46,6 @@ public class FacultyService {
     public Faculty addFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
+
+    //
 }

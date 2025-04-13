@@ -15,7 +15,7 @@ public class DataInitializer {
     public DataInitializer(StudentService studentService, FacultyService facultyService) {
         this.studentService = studentService;
         this.facultyService = facultyService;
-        //initTestData();
+        //   initTestData();
     }
 
     private void initTestData() {
