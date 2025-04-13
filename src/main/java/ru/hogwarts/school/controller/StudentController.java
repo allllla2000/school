@@ -1,9 +1,12 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.StudentService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,9 +26,17 @@ import java.util.stream.Collectors;
 public class StudentController {
 
     private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
-    public StudentController (StudentService studentService) {
+    @Autowired
+    public StudentController(StudentService studentService, StudentRepository studentRepository) {
         this.studentService = studentService;
+        this.studentRepository = studentRepository;
+    }
+
+    @GetMapping
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
     }
 
     @PostMapping
@@ -65,6 +78,20 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
+    @GetMapping("/by-age-between")
+    public List<Student> getStudentsByAgeBetween(
+            @RequestParam int min,
+            @RequestParam int max
+    ) {
+        return studentRepository.findByAgeBetween(min, max);
+    }
+
+    @GetMapping("/{id}/faculty")
+    public ResponseEntity<Faculty> getFacultyByStudent(@PathVariable Long id) {
+        return studentRepository.findById(id)
+                .map(student -> ResponseEntity.ok(student.getFaculty()))
+                .orElse(ResponseEntity.notFound().build());
+    }
 
 
 }
