@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
@@ -61,13 +62,13 @@ public class FacultyController {
     }
 
     @GetMapping("/color/{color}")
-        public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@PathVariable String color) {
-            Collection<Faculty> faculties = facultyService.getFacultiesByColor(color);
-            if (faculties.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(faculties);
+    public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@PathVariable String color) {
+        Collection<Faculty> faculties = facultyService.getFacultiesByColor(color);
+        if (faculties.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(faculties);
+    }
 
     @GetMapping("/search")
     public ResponseEntity<Collection<Faculty>> searchFaculties(
@@ -82,6 +83,4 @@ public class FacultyController {
         List<Student> students = studentRepository.findByFacultyId(id);
         return ResponseEntity.ok(students);
     }
-
-
 }
