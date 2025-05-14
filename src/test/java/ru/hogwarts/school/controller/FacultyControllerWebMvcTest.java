@@ -5,13 +5,16 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -63,5 +66,21 @@ public class FacultyControllerWebMvcTest {
 
         mockMvc.perform(get("/faculty/color/Invisible"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testGetStudentsByFacultyId() throws Exception {
+        Faculty faculty = new Faculty(1L, "Gryffindor", "Red");
+        Student student = new Student(1L, "Harry", 15);
+        student.setFaculty(faculty);
+
+        Mockito.when(studentRepository.findByFacultyId(1L)).thenReturn(List.of(student));
+
+        mockMvc.perform(get("/faculty/1/students")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Harry"))
+                .andExpect(jsonPath("$[0].age").value(15));
     }
 }
