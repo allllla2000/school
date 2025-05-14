@@ -1,22 +1,30 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.FacultyService;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/faculty")
 public class FacultyController {
 
     private final FacultyService facultyService;
+    private final FacultyRepository facultyRepository;
+    private final StudentRepository studentRepository;
 
-    public FacultyController(FacultyService facultyService) {
+    public FacultyController(FacultyService facultyService, FacultyRepository facultyRepository, StudentRepository studentRepository) {
         this.facultyService = facultyService;
+        this.facultyRepository = facultyRepository;
+        this.studentRepository = studentRepository;
     }
 
     @PostMapping
@@ -54,12 +62,25 @@ public class FacultyController {
     }
 
     @GetMapping("/color/{color}")
-        public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@PathVariable String color) {
-            Collection<Faculty> faculties = facultyService.getFacultiesByColor(color);
-            if (faculties.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(faculties);
+    public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@PathVariable String color) {
+        Collection<Faculty> faculties = facultyService.getFacultiesByColor(color);
+        if (faculties.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(faculties);
+    }
 
+    @GetMapping("/search")
+    public ResponseEntity<Collection<Faculty>> searchFaculties(
+            @RequestParam String query) {
+        Collection<Faculty> faculties = facultyRepository
+                .findByNameIgnoreCaseOrColorIgnoreCase(query, query);
+        return ResponseEntity.ok(faculties);
+    }
+
+    @GetMapping("/{id}/students")
+    public ResponseEntity<List<Student>> getStudentsByFaculty(@PathVariable Long id) {
+        List<Student> students = studentRepository.findByFacultyId(id);
+        return ResponseEntity.ok(students);
+    }
 }
