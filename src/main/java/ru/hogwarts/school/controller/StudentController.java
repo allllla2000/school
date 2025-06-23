@@ -26,17 +26,15 @@ import java.util.stream.Collectors;
 public class StudentController {
 
     private final StudentService studentService;
-    private final StudentRepository studentRepository;
 
     @Autowired
-    public StudentController(StudentService studentService, StudentRepository studentRepository) {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
-        this.studentRepository = studentRepository;
     }
 
     @GetMapping
     public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+        return studentService.getAllStudents();
     }
 
     @PostMapping
@@ -79,18 +77,17 @@ public class StudentController {
     }
 
     @GetMapping("/by-age-between")
-    public List<Student> getStudentsByAgeBetween(
-            @RequestParam int min,
-            @RequestParam int max
-    ) {
-        return studentRepository.findByAgeBetween(min, max);
+    public List<Student> getStudentsByAgeBetween(@RequestParam int min, @RequestParam int max) {
+        return studentService.getStudentsByAgeBetween(min, max);
     }
 
     @GetMapping("/{id}/faculty")
     public ResponseEntity<Faculty> getFacultyByStudent(@PathVariable Long id) {
-        return studentRepository.findById(id)
-                .map(student -> ResponseEntity.ok(student.getFaculty()))
-                .orElse(ResponseEntity.notFound().build());
+        Faculty faculty = studentService.getFacultyByStudent(id); // ✅ через сервис
+        if (faculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty);
     }
 
     @GetMapping("/count")
@@ -107,7 +104,4 @@ public class StudentController {
     public List<Student> getLastFiveStudents() {
         return studentService.getLastFiveStudents();
     }
-
-
-
 }

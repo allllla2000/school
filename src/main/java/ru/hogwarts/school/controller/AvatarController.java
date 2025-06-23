@@ -7,23 +7,23 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.repository.AvatarRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
-
+import ru.hogwarts.school.service.AvatarService;
 
 
 @RestController
 @RequestMapping("/avatar")
 public class AvatarController {
 
-    private final AvatarRepository avatarRepository;
+    private final AvatarService avatarService;
 
     @Autowired
-    public AvatarController(AvatarRepository avatarRepository) {
-        this.avatarRepository = avatarRepository;
+    public AvatarController(AvatarService avatarService) {
+        this.avatarService = avatarService;
     }
 
     @GetMapping("/page")
     public Page<Avatar> getAvatarsByPage(@RequestParam int page, @RequestParam int size) {
-        return avatarRepository.findAll(PageRequest.of(page, size));
+        return avatarService.getAvatarsByPage(page, size);
     }
 
 }
