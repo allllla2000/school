@@ -33,4 +33,9 @@ public class Avatar {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+
 }
