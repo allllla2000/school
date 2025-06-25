@@ -3,19 +3,25 @@ package ru.hogwarts.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
 
     private final FacultyRepository facultyRepository;
+    private final StudentRepository studentRepository;
+
 
     @Autowired
-    public FacultyService(FacultyRepository facultyRepository) {
+    public FacultyService(FacultyRepository facultyRepository, StudentRepository studentRepository) {
         this.facultyRepository = facultyRepository;
+        this.studentRepository = studentRepository;
     }
 
     public Faculty findFaculty (long id) {
@@ -46,4 +52,13 @@ public class FacultyService {
     public Faculty addFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
+
+    public Collection<Faculty> searchFaculties(String query) {
+        return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(query, query);
+    }
+
+    public List<Student> getStudentsByFaculty(Long facultyId) {
+        return studentRepository.findByFacultyId(facultyId);
+    }
+
 }
