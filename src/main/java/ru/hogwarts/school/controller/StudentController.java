@@ -1,9 +1,12 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.StudentService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,8 +27,14 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    public StudentController (StudentService studentService) {
+    @Autowired
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
+    }
+
+    @GetMapping
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
     }
 
     @PostMapping
@@ -63,6 +74,50 @@ public class StudentController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/by-age-between")
+    public List<Student> getStudentsByAgeBetween(@RequestParam int min, @RequestParam int max) {
+        return studentService.getStudentsByAgeBetween(min, max);
+    }
+
+    @GetMapping("/{id}/faculty")
+    public ResponseEntity<Faculty> getFacultyByStudent(@PathVariable Long id) {
+        Faculty faculty = studentService.getFacultyByStudent(id); // ✅ через сервис
+        if (faculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty);
+    }
+
+    @GetMapping("/count")
+    public int getStudentCount() {
+        return studentService.getStudentCount();
+    }
+
+    @GetMapping("/average-age")
+    public double getAverageAge() {
+        return studentService.getAverageAge();
+    }
+
+    @GetMapping("/last-five")
+    public List<Student> getLastFiveStudents() {
+        return studentService.getLastFiveStudents();
+    }
+
+    @GetMapping("/names-starting-with-a")
+    public List<String> getNamesStartingWithA() {
+        return studentService.getNamesStartingWithA();
+    }
+
+    @GetMapping("/average-age-stream")
+    public double getAverageAgeOfStudents() {
+        return studentService.getAverageAgeOfStudents();
+    }
+
+    @GetMapping("/performance/sum")
+    public int getParallelSum() {
+        return studentService.getParallelSum();
     }
 
 
