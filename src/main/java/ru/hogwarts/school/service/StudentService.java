@@ -11,6 +11,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class StudentService {
@@ -95,4 +96,28 @@ public class StudentService {
         logger.debug("Was invoked method to get last five students");
         return studentRepository.findLastFiveStudents();
     }
+
+    public List<String> getNamesStartingWithA() {
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .filter(name -> name != null && name.toUpperCase().startsWith("A"))
+                .map(String::toUpperCase)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public double getAverageAgeOfStudents() {
+        return studentRepository.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElse(0);
+    }
+    public int getParallelSum() {
+        return IntStream.rangeClosed(1, 1_000_000)
+                .parallel()
+                .reduce(0, Integer::sum);
+    }
+
+
+
 }
