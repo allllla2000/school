@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Objects;
 import java.util.List;
@@ -22,8 +24,19 @@ public class StudentControllerRestTemplateTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
     private String getBaseUrl() {
         return "http://localhost:" + port + "/student";
+    }
+
+    @BeforeEach
+    void prepareStudents() {
+        studentRepository.deleteAll();
+
+        List.of("Harry", "Hermione", "Ron", "Draco", "Luna", "Neville")
+                .forEach(name -> studentRepository.save(new Student(name, 18)));
     }
 
     @Test
@@ -74,4 +87,35 @@ public class StudentControllerRestTemplateTest {
         ResponseEntity<Faculty> response = restTemplate.getForEntity(getBaseUrl() + "/1/faculty", Faculty.class);
         assertThat(response.getStatusCode()).isIn(HttpStatus.OK, HttpStatus.NOT_FOUND);
     }
+
+    @Test
+    public void testPrintParallel_returnsOk() {
+        ResponseEntity<Void> response = restTemplate.getForEntity(getBaseUrl() + "/students/print-parallel", Void.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void testPrintSynchronized_returnsOk() {
+        ResponseEntity<Void> response = restTemplate.getForEntity(getBaseUrl() + "/students/print-synchronized", Void.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    public void testPrintParallel_returnsBadRequest_ifNotEnoughStudents() {
+        studentRepository.deleteAll();
+        studentRepository.save(new Student("One", 18));
+
+        ResponseEntity<Void> response = restTemplate.getForEntity(getBaseUrl() + "/students/print-parallel", Void.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void testPrintSynchronized_returnsBadRequest_ifNotEnoughStudents() {
+        studentRepository.deleteAll();
+        studentRepository.save(new Student("One", 18));
+
+        ResponseEntity<Void> response = restTemplate.getForEntity(getBaseUrl() + "/students/print-synchronized", Void.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
 }

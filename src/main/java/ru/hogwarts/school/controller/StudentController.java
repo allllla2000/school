@@ -120,6 +120,67 @@ public class StudentController {
         return studentService.getParallelSum();
     }
 
+    @GetMapping("/students/print-parallel")
+    public ResponseEntity<Void> printStudentsInParallel() {
+        List<Student> students = studentService.getAllStudents();
 
+        if (students.size() < 6) {
+            System.out.println("Недостаточно студентов для демонстрации потоков - нужно минимум 6");
+            return ResponseEntity.badRequest().build();
+        }
+
+        System.out.println("Основной поток: " + Thread.currentThread().getName());
+        System.out.println(students.get(0).getName());
+        System.out.println(students.get(1).getName());
+
+        Thread thread1 = new Thread(() -> {
+            System.out.println("Поток 1: " + Thread.currentThread().getName());
+            System.out.println(students.get(2).getName());
+            System.out.println(students.get(3).getName());
+        });
+
+        Thread thread2 = new Thread(() -> {
+            System.out.println("Поток 2: " + Thread.currentThread().getName());
+            System.out.println(students.get(4).getName());
+            System.out.println(students.get(5).getName());
+        });
+
+        thread1.start();
+        thread2.start();
+
+        return ResponseEntity.ok().build();
+    }
+
+    private synchronized void printStudentName(Student student) {
+        System.out.println(Thread.currentThread().getName() + ": " + student.getName());
+    }
+
+    @GetMapping("/students/print-synchronized")
+    public ResponseEntity<Void> printStudentsSynchronized() {
+        List<Student> students = studentService.getAllStudents();
+
+        if (students.size() < 6) {
+            System.out.println("Недостаточно студентов для демонстрации синхронизации");
+            return ResponseEntity.badRequest().build();
+        }
+
+        printStudentName(students.get(0));
+        printStudentName(students.get(1));
+
+        Thread thread1 = new Thread(() -> {
+            printStudentName(students.get(2));
+            printStudentName(students.get(3));
+        });
+
+        Thread thread2 = new Thread(() -> {
+            printStudentName(students.get(4));
+            printStudentName(students.get(5));
+        });
+
+        thread1.start();
+        thread2.start();
+
+        return ResponseEntity.ok().build();
+    }
 
 }
