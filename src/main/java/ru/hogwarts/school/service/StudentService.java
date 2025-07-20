@@ -119,5 +119,65 @@ public class StudentService {
     }
 
 
+    public void printStudentsInParallel() {
+        List<Student> students = getAllStudents();
+
+        if (students.size() < 6) {
+            System.out.println("Недостаточно студентов для демонстрации потоков");
+            return;
+        }
+
+        System.out.println("Основной поток: " + Thread.currentThread().getName());
+        System.out.println(students.get(0).getName());
+        System.out.println(students.get(1).getName());
+
+        Thread thread1 = new Thread(() -> {
+            System.out.println("Поток 1: " + Thread.currentThread().getName());
+            System.out.println(students.get(2).getName());
+            System.out.println(students.get(3).getName());
+        });
+
+        Thread thread2 = new Thread(() -> {
+            System.out.println("Поток 2: " + Thread.currentThread().getName());
+            System.out.println(students.get(4).getName());
+            System.out.println(students.get(5).getName());
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+
+    public void printStudentsSynchronized() {
+        List<Student> students = getAllStudents();
+
+        if (students.size() < 6) {
+            System.out.println("Недостаточно студентов для демонстрации потоков");
+            return;
+        }
+
+        printStudentName(students.get(0));
+        printStudentName(students.get(1));
+
+        Thread thread1 = new Thread(() -> {
+            printStudentName(students.get(2));
+            printStudentName(students.get(3));
+        });
+
+        Thread thread2 = new Thread(() -> {
+            printStudentName(students.get(4));
+            printStudentName(students.get(5));
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+
+    private synchronized void printStudentName(Student student) {
+        System.out.println(Thread.currentThread().getName() + ": " + student.getName());
+    }
+
+
+
+
 
 }
